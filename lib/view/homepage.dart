@@ -11,8 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -21,23 +19,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   Image? _selectedImage;
   Pose? _detectedPose;
   Size _imageSize = Size.zero;
   late double x1;
   late double y1;
-
   late double x2;
   late double y2;
-
   late double y3;
   late double x3;
-
   late double alpha;
 
-  Future _getImage() async {
-    PickedFile? result = await ImagePicker().getImage(source: ImageSource.gallery, imageQuality: 50);
+  Future _getImage(ImageSource source) async {
+    PickedFile? result = await ImagePicker()
+        .getImage(source: source, imageQuality: 50);
     if (result == null) return;
     final path = result.path;
     if (path != null) {
@@ -45,8 +40,8 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _selectedImage = Image.file(File(path));
       });
-    }
 
+    }
   }
 
   Future<void> _detectImagePose() async {
@@ -57,6 +52,7 @@ class _HomePageState extends State<HomePage> {
     });
     final pose = await BodyDetection.detectPose(image: pngImage);
     _handlePose(pose);
+    position();
   }
 
   void _handlePose(Pose? pose) {
@@ -67,15 +63,29 @@ class _HomePageState extends State<HomePage> {
   }
 
   void showAlertDialog(BuildContext context, String baslik, String aciklama) {
-
     Widget okButton = TextButton(
-      child: Text("Kapat"),
-      onPressed: () { Navigator.of(context).pop();},
+      child: Text(
+        "Kapat",
+        style: GoogleFonts.courgette(
+            fontStyle: FontStyle.italic, fontSize: 15, color: Colors.red),
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text(baslik),
-      content: Text(aciklama),
+      backgroundColor: Colors.grey.shade400,
+      title: Text(
+        baslik,
+        style: GoogleFonts.courgette(
+            fontStyle: FontStyle.italic, fontSize: 25, color: Colors.black),
+      ),
+      content: Text(
+        aciklama,
+        style: GoogleFonts.courgette(
+            fontStyle: FontStyle.italic, fontSize: 18, color: Colors.black),
+      ),
       actions: [
         okButton,
       ],
@@ -91,51 +101,44 @@ class _HomePageState extends State<HomePage> {
 
   void position() {
     for (final landmark in _detectedPose!.landmarks) {
-
       Point3d position = landmark.position;
 
       PoseLandmarkType type = landmark.type;
 
-      if(PoseLandmarkType.rightShoulder==type){
+      if (PoseLandmarkType.rightShoulder == type) {
         x1 = position.x;
         y1 = position.y;
-
-      }
-
-      else if(PoseLandmarkType.rightKnee==type) {
+      } else if (PoseLandmarkType.rightKnee == type) {
         x2 = position.x;
         y2 = position.y;
-
-      }
-      else if (PoseLandmarkType.rightHip==type){
+      } else if (PoseLandmarkType.rightHip == type) {
         x3 = position.x;
         y3 = position.y;
-
       }
     }
 
-    var kh = sqrt(pow(x3-x2, 2)+ pow(y3-y2, 2));
-    var sh = sqrt(pow(x3-x1, 2) + pow(y3-y1, 2));
-    var sk = sqrt(pow(x2-x1, 2)+ pow(y2-y1, 2));
+    var kh = sqrt(pow(x3 - x2, 2) + pow(y3 - y2, 2));
+    var sh = sqrt(pow(x3 - x1, 2) + pow(y3 - y1, 2));
+    var sk = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
 
+    alpha = 1 /
+        cos(((pow(sh, 2) + pow(kh, 2) - pow(sk, 2)) / 2 * sh * kh) *
+            (pi / 180));
 
-    alpha = 1/cos(((pow(sh, 2)+ pow(kh, 2) -pow(sk, 2))/2*sh*kh)*(pi/180));
+    double f = alpha * (180 / pi);
 
-
-    double f = alpha*(180/pi);
-
-    if(f<0){
-      f=f+180;
+    if (f < 0) {
+      f = f + 180;
     }
     print("*********************************");
     print(f);
 
-
-    if(f<120 && f>93){
-          showAlertDialog(context, 'Teşhis', 'Ergonomik bir pozisyondasınız. Tebrikler!');
-    }
-    else{
-      showAlertDialog(context, 'Teşhis', 'Ergonomik bir pozisyonda değilsiniz!. Lütfen dikkatli olunuz!');
+    if (f < 120 && f > 93) {
+      showAlertDialog(
+          context, 'Teşhis', 'Ergonomik bir pozisyondasınız. Tebrikler!');
+    } else {
+      showAlertDialog(context, 'Teşhis',
+          'Ergonomik bir pozisyonda değilsiniz!. Lütfen dikkatli olunuz!');
     }
   }
 
@@ -147,12 +150,16 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ergonomix',
-          style: GoogleFonts.lobster(fontStyle: FontStyle.italic, fontSize: 34, color: Colors.black),),
+        title: Text(
+          'Ergonomix',
+          style: GoogleFonts.lobster(
+              fontStyle: FontStyle.italic, fontSize: 34, color: Colors.black),
+        ),
         centerTitle: true,
         backgroundColor: Colors.grey.shade600,
         leading: IconButton(
@@ -181,7 +188,6 @@ class _HomePageState extends State<HomePage> {
               Center(
                 child: Column(
                   children: [
-
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 50, 0, 10),
                       child: FloatingActionButton.extended(
@@ -193,10 +199,13 @@ class _HomePageState extends State<HomePage> {
                         backgroundColor: Colors.grey.shade400,
                         label: Text(
                           'Galeri',
-                          style: GoogleFonts.courgette(fontStyle: FontStyle.italic, fontSize: 25, color: Colors.black),
+                          style: GoogleFonts.courgette(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 25,
+                              color: Colors.black),
                         ),
                         onPressed: () {
-                          _getImage();
+                          _getImage(ImageSource.gallery);
                         },
                       ),
                     ),
@@ -204,12 +213,15 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                       child: FloatingActionButton.extended(
                         onPressed: () {
-                          _detectImagePose();
-                          position();
+
+                          _getImage(ImageSource.camera);
                         },
                         label: Text(
-                          'Teshis',
-                          style: GoogleFonts.courgette(fontStyle: FontStyle.italic, fontSize: 25, color: Colors.black),
+                          'Kamera',
+                          style: GoogleFonts.courgette(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 25,
+                              color: Colors.black),
                         ),
                         backgroundColor: Colors.grey.shade400,
                         icon: Icon(
@@ -223,11 +235,37 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
                       child: FloatingActionButton.extended(
                         onPressed: () {
+                          _detectImagePose();
+
+
+                        },
+                        label: Text(
+                          'Teshis',
+                          style: GoogleFonts.courgette(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 25,
+                              color: Colors.black),
+                        ),
+                        backgroundColor: Colors.grey.shade400,
+                        icon: Icon(
+                          Icons.person_outline,
+                          size: 30.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
+                      child: FloatingActionButton.extended(
+                        onPressed: () {
                           _resetState();
                         },
                         label: Text(
                           'Temizle',
-                          style: GoogleFonts.courgette(fontStyle: FontStyle.italic, fontSize: 25, color: Colors.black),
+                          style: GoogleFonts.courgette(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 25,
+                              color: Colors.black),
                         ),
                         backgroundColor: Colors.grey.shade400,
                         icon: Icon(
@@ -242,11 +280,8 @@ class _HomePageState extends State<HomePage> {
               ),
             ]),
           ],
-
         ),
       ),
-      
     );
   }
 }
-
