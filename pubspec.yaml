@@ -64,6 +64,7 @@ flutter:
     - assets/images/temizle.png
     - assets/images/galeri.png
     - assets/images/teshis.png
+    - assets/images/kamera.png
   fonts:
     - family: Koulen
       fonts:

@@ -31,11 +31,17 @@ class IntroPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      '1- Galeri tuşuna basıp galeriden fotoğrafınızı seçiniz',
+                      '1- Galeri tuşuna basıp galeriden fotoğrafınızı seçiniz ya da Kamera tuşuna basıp bir fotoğraf çekiniz.',
                       style: GoogleFonts.courgette(
                           fontStyle: FontStyle.italic, fontSize: 25),
                     ),
-                    Image.asset('assets/images/galeri.png'),
+                    Row(
+                      children: [
+                        Image.asset('assets/images/galeri.png'),
+                        Image.asset('assets/images/kamera.png'),
+                      ],
+                    ),
+
                     Text(
                       '2- Teşhiş tuşuna basıp ergonomi teşhisini tamamlayınız.',
                       style: GoogleFonts.courgette(

@@ -29,16 +29,15 @@ class PosePainter extends CustomPainter {
   void _paintPose(Canvas canvas, Size size) {
     if (pose == null) return;
 
-    final double hRatio =
-        imageSize.width == 0 ? 1 : size.width / imageSize.width;
-    final double vRatio =
-        imageSize.height == 0 ? 1 : size.height / imageSize.height;
+    final double hRatio = imageSize.width == 0 ? 1 : size.width / imageSize.width;
+    final double vRatio = imageSize.height == 0 ? 1 : size.height / imageSize.height;
 
     offsetForPart(PoseLandmark part) =>
         Offset(part.position.x * hRatio, part.position.y * vRatio);
 
     // Landmark connections
     final landmarksByType = {for (final it in pose!.landmarks) it.type: it};
+
     for (final connection in connections) {
 
       final point1 = offsetForPart(landmarksByType[connection[0]]!);
