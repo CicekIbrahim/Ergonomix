@@ -21,44 +21,39 @@ class IntroPage extends StatelessWidget {
           backgroundColor: Colors.grey.shade600,
         ),
         backgroundColor: Colors.grey.shade500,
-        body: Stack(
-          children: [
-            Container(
-                child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        body: Container(
+            child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  '1- Galeri butonuna basarak galeriden fotoğrafınızı seçiniz ya da Kamera butonuna basarak bir fotoğraf çekiniz.',
+                  style: GoogleFonts.courgette(
+                      fontStyle: FontStyle.italic, fontSize: 25),
+                ),
+                Row(
                   children: [
-                    Text(
-                      '1- Galeri tuşuna basıp galeriden fotoğrafınızı seçiniz ya da Kamera tuşuna basıp bir fotoğraf çekiniz.',
-                      style: GoogleFonts.courgette(
-                          fontStyle: FontStyle.italic, fontSize: 25),
-                    ),
-                    Row(
-                      children: [
-                        Image.asset('assets/images/galeri.png'),
-                        Image.asset('assets/images/kamera.png'),
-                      ],
-                    ),
-
-                    Text(
-                      '2- Teşhiş tuşuna basıp ergonomi teşhisini tamamlayınız.',
-                      style: GoogleFonts.courgette(
-                          fontStyle: FontStyle.italic, fontSize: 25),
-                    ),
-                    Image.asset('assets/images/teshis.png'),
-                    Text(
-                      '3- Temizleyip baştan başlamak için Temizle tuşuna basınız',
-                      style: GoogleFonts.courgette(
-                          fontStyle: FontStyle.italic, fontSize: 25),
-                    ),
-                    Image.asset('assets/images/temizle.png')
+                    Image.asset('assets/images/galeri.png'),
+                    Image.asset('assets/images/kamera.png'),
                   ],
                 ),
-              ),
-            ))
-          ],
-        ));
+                Text(
+                  '2- Teşhiş butonuna basıp ergonomi teşhisini tamamlanmasını bekleyiniz.',
+                  style: GoogleFonts.courgette(
+                      fontStyle: FontStyle.italic, fontSize: 25),
+                ),
+                Image.asset('assets/images/teshis.png'),
+                Text(
+                  '3- Temizleyip baştan başlamak için Temizle butonuna basınız',
+                  style: GoogleFonts.courgette(
+                      fontStyle: FontStyle.italic, fontSize: 25),
+                ),
+                Image.asset('assets/images/temizle.png')
+              ],
+            ),
+          ),
+        )));
   }
 }
