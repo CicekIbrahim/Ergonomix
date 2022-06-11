@@ -5,11 +5,11 @@ import 'package:body_detection/models/point3d.dart';
 import 'package:body_detection/models/pose.dart';
 import 'package:body_detection/models/pose_landmark_type.dart';
 import 'package:body_detection/png_image.dart';
-import 'package:ergonomix/services/pose_painter.dart';
-import 'package:ergonomix/view/introductionScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../services/pose_painter.dart';
+import 'introductionScreen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -31,8 +31,8 @@ class _HomePageState extends State<HomePage> {
   late double alpha;
 
   Future _getImage(ImageSource source) async {
-    PickedFile? result = await ImagePicker()
-        .getImage(source: source, imageQuality: 50);
+    PickedFile? result =
+        await ImagePicker().getImage(source: source, imageQuality: 50);
     if (result == null) return;
     final path = result.path;
     if (path != null) {
@@ -40,7 +40,6 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _selectedImage = Image.file(File(path));
       });
-
     }
   }
 
@@ -62,7 +61,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void showAlertDialog(BuildContext context, String baslik, String aciklama) {
+  void resultPopup(BuildContext context, String baslik, String aciklama) {
     Widget okButton = TextButton(
       child: Text(
         "Kapat",
@@ -130,14 +129,12 @@ class _HomePageState extends State<HomePage> {
     if (f < 0) {
       f = f + 180;
     }
-    print("*********************************");
-    print(f);
 
     if (f < 120 && f > 93) {
-      showAlertDialog(
+      resultPopup(
           context, 'Teşhis', 'Ergonomik bir pozisyondasınız. Tebrikler!');
     } else {
-      showAlertDialog(context, 'Teşhis',
+      resultPopup(context, 'Teşhis',
           'Ergonomik bir pozisyonda değilsiniz!. Lütfen dikkatli olunuz!');
     }
   }
@@ -149,7 +146,6 @@ class _HomePageState extends State<HomePage> {
       _selectedImage = null;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -163,12 +159,12 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         backgroundColor: Colors.grey.shade600,
         leading: IconButton(
-          icon: Icon(Icons.question_mark),
+          icon: const Icon(Icons.question_mark),
           onPressed: () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => IntroPage()));
+                    builder: (BuildContext context) => const IntroPage()));
           },
           color: Colors.black,
         ),
@@ -191,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 50, 0, 10),
                       child: FloatingActionButton.extended(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.photo_library_outlined,
                           size: 30.0,
                           color: Colors.black,
@@ -213,7 +209,6 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                       child: FloatingActionButton.extended(
                         onPressed: () {
-
                           _getImage(ImageSource.camera);
                         },
                         label: Text(
@@ -224,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.black),
                         ),
                         backgroundColor: Colors.grey.shade400,
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.camera_alt_outlined,
                           size: 30.0,
                           color: Colors.black,
@@ -236,8 +231,6 @@ class _HomePageState extends State<HomePage> {
                       child: FloatingActionButton.extended(
                         onPressed: () {
                           _detectImagePose();
-
-
                         },
                         label: Text(
                           'Teshis',
@@ -247,7 +240,7 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.black),
                         ),
                         backgroundColor: Colors.grey.shade400,
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.person_outline,
                           size: 30.0,
                           color: Colors.black,
@@ -268,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.black),
                         ),
                         backgroundColor: Colors.grey.shade400,
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.cancel_outlined,
                           size: 30.0,
                           color: Colors.black,
