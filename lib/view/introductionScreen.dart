@@ -46,7 +46,7 @@ class IntroPage extends StatelessWidget {
                 ),
                 Image.asset('assets/images/teshis.png'),
                 Text(
-                  '3- Temizleyip baştan başlamak için Temizle butonuna basınız',
+                  '3- Temizleyip baştan başlamak için Temizle butonuna basınız.',
                   style: GoogleFonts.courgette(
                       fontStyle: FontStyle.italic, fontSize: 25),
                 ),
