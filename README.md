@@ -1,3 +1,18 @@
+
 # Ergonomix
 
-This Project is based on body_detection Flutter packets example. It uses body_detection packet to detect body parts and draws lines between them and with these lines it calculates the angle between your body and legs. By calculting this angle it can tell if you're in a ergonomic position or not. Its still being worked on. Please check the commits for further updates
+İster galeriden seçilen isterseniz de kameradan çekilen profil açısı kullanan tüm fotoğraflarda  ergonomi teşhisi yapabilen uygulama. 
+
+
+## Kullanılan Teknolojiler
+
+**Uygulama:** Flutter, Dart
+
+**Paketler:** body_detection
+
+  
+## Ekran Görüntüleri
+
+![Uygulama Ekran Görüntüsü](https://res.cloudinary.com/duhzykhah/image/upload/v1675507290/Gymbuddy/App%20Screenshots/My_project-1-removebg-preview_bethnl.png)
+
+  
